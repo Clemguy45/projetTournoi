@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  discovery:
+    image: consul:1.15.4
+    ports:
+      - 8500:8500
+
+
+  config-server:
+    build: ./config
+    environment:
+      - SERVER_PORT=8888
+      - GIT_URI=https://github.com/Clemguy45/projetTournoi.git
+      - DEBUG=true
+    depends_on:
+      - discovery
+
+  gateway:
+    build: ./gateway
+    ports:
+      - 8082:8082
+    environment:
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+      - DEBUG=true
+    depends_on:
+      - discovery
