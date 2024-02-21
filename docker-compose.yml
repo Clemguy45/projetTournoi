@@ -6,6 +6,17 @@ services:
     ports:
       - 8500:8500
 
+  keycloack:
+    image: jboss/keycloak:latest
+    ports:
+      - 8000:8080
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - BEBUG = true
+    volumes:
+      - ./realm-export.json:/tmp/realm-export.json
+    command: ["-b", "0.0.0.0", "-Dkeycloak.import=/tmp/realm-export.json"]
 
   config-server:
     build: ./config
