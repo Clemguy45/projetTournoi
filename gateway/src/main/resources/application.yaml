@@ -20,6 +20,9 @@ spring:
           uri: lb://joueur-service
           predicates:
             - Path=/joueur/**
+          filters:
+            - RewritePath=/joueur/(?<path>.*), /joueur/$\{path}
+            - PreserveHostHeader=true
 
 server:
   port: 8082
