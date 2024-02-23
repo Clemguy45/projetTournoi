@@ -2,21 +2,40 @@ version: "3.9"
 
 services:
   discovery:
-    image: consul:1.15.4
+    image: consul:1.15
     ports:
       - 8500:8500
+    networks:
+      - microservice-network
 
-  keycloack:
-    image: jboss/keycloak:latest
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
     ports:
-      - 8000:8080
+      - "5432:5432"
+    networks:
+      - keycloak-network
+
+  keycloak:
+    image: jboss/keycloak:latest
+    container_name: keycloak
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
-      - BEBUG = true
+      - DB_USER=keycloak
+      - DB_PASSWORD=password
+      - DB_ADDR=postgres
+    ports:
+      - "8000:8080"
     volumes:
       - ./realm-export.json:/tmp/realm-export.json
-    command: ["-b", "0.0.0.0", "-Dkeycloak.import=/tmp/realm-export.json"]
+    command: [ "-b", "0.0.0.0", "-Dkeycloak.import=/tmp/realm-export.json" ]
+    networks:
+      - keycloak-network
 
   config-server:
     build: ./config
@@ -36,4 +55,25 @@ services:
       - CONSUL_PORT=8500
       - DEBUG=true
     depends_on:
+    - discovery
+    networks:
+      - microservice-network
+
+  joueur:
+    build: ./serviceJoueur
+    environment:
+      - DEBUG=true
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+    depends_on:
       - discovery
+      - config-server
+    networks:
+      - microservice-network
+
+networks:
+  keycloak-network:
+    driver: bridge
+
+  microservice-network:
+    driver: bridge

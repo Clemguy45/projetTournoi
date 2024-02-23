@@ -9,7 +9,11 @@
 
   <name>projetTournoi</name>
 
-  <packaging>pom</packaging>
+    <modules>
+        <module>modeleGestionUtilisateurs</module>
+    </modules>
+
+    <packaging>pom</packaging>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>

@@ -4,14 +4,22 @@ spring:
 
   cloud:
     consul:
-      discovery:
-        register: true
       host: ${CONSUL_HOST:localhost}
       port: ${CONSUL_PORT:8500}
+      discovery:
+        register: true
       ribbon:
         enabled: false
 
-
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: joueur-service
+          uri: lb://joueur-service
+          predicates:
+            - Path=/joueur/**
 
 server:
   port: 8082

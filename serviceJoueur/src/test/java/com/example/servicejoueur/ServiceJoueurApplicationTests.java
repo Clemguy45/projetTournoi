@@ -1,10 +1,10 @@
-package com.example.keycloak;
+package com.example.servicejoueur;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class KeycloakApplicationTests {
+class ServiceJoueurApplicationTests {
 
     @Test
     void contextLoads() {
