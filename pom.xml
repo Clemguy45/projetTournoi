@@ -9,10 +9,6 @@
 
   <name>projetTournoi</name>
 
-    <modules>
-        <module>modeleGestionUtilisateurs</module>
-    </modules>
-
     <packaging>pom</packaging>
 
   <properties>

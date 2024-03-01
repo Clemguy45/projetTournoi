@@ -6,17 +6,20 @@ services:
     ports:
       - 8500:8500
     networks:
-      - microservice-network
+      - keycloak-network
 
-  postgres:
-    image: postgres:latest
-    container_name: postgres
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
     environment:
-      - POSTGRES_DB=keycloak
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=password
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "5432:5432"
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
     networks:
       - keycloak-network
 
@@ -26,9 +29,11 @@ services:
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
+      - DB_VENDOR=MYSQL
+      - DB_DATABASE=keycloak
       - DB_USER=keycloak
       - DB_PASSWORD=password
-      - DB_ADDR=postgres
+      - DB_ADDR=mysql
     ports:
       - "8000:8080"
     volumes:
@@ -45,6 +50,8 @@ services:
       - DEBUG=true
     depends_on:
       - discovery
+    networks:
+      - keycloak-network
 
   gateway:
     build: ./gateway
@@ -57,7 +64,7 @@ services:
     depends_on:
     - discovery
     networks:
-      - microservice-network
+      - keycloak-network
 
   joueur:
     build: ./serviceJoueur
@@ -65,15 +72,23 @@ services:
       - DEBUG=true
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/keycloak
+      - SPRING_DATASOURCE_USERNAME=keycloak
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
     depends_on:
       - discovery
       - config-server
+      - mysql
     networks:
-      - microservice-network
+      - keycloak-network
 
 networks:
   keycloak-network:
     driver: bridge
 
-  microservice-network:
-    driver: bridge
+volumes:
+  mysql-data:
+    driver: local
