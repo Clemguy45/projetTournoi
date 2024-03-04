@@ -26,3 +26,14 @@ services:
       - DEBUG=true
     depends_on:
       - discovery
+
+  servicejeux2 :
+    build: ./serviceJeu2
+    ports:
+      - 8084:8084
+    environment:
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+      - DEBUG=true
+    depends_on:
+      - discovery
