@@ -1,2 +1,4 @@
-package exceptions;public class JeuDejaExistantException {
+package exceptions;
+
+public class JeuDejaExistantException extends Exception {
 }
