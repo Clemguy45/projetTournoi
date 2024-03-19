@@ -24,11 +24,11 @@ services:
       - keycloak-network
 
   keycloak:
-    image: jboss/keycloak:latest
+    image: quay.io/keycloak/keycloak:24.0.1
     container_name: keycloak
     environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
       - DB_VENDOR=MYSQL
       - DB_DATABASE=keycloak
       - DB_USER=keycloak
@@ -36,9 +36,7 @@ services:
       - DB_ADDR=mysql
     ports:
       - "8000:8080"
-    volumes:
-      - ./realm-export.json:/tmp/realm-export.json
-    command: [ "-b", "0.0.0.0", "-Dkeycloak.import=/tmp/realm-export.json" ]
+    command: ["start-dev"]
     networks:
       - keycloak-network
 
