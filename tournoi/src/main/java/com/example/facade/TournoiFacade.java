@@ -1,4 +1,4 @@
 package com.example.facade;
 
-public class TournoiFacade {
+public interface TournoiFacade {
 }

@@ -5,14 +5,27 @@ import java.util.List;
 
 public class Tournoi {
     private Long id;
-    private String jeu;
+    private Long IdJeu;
     private String responsable;
     private String organisation;
     private List<Long> joueursIds; // Liste des identifiants des joueurs inscrits
     private List<Long> equipesIds; // Liste des identifiants des équipes inscrites
     private List<String> règles;
     private Date date;
-    private int horaire;
+
+    public Tournoi() {
+    }
+
+    public Tournoi(Long id, Long idJeu, String responsable, String organisation, List<Long> joueursIds, List<Long> equipesIds, List<String> règles, Date date) {
+        this.id = id;
+        this.IdJeu = idJeu;
+        this.responsable = responsable;
+        this.organisation = organisation;
+        this.joueursIds = joueursIds;
+        this.equipesIds = equipesIds;
+        this.règles = règles;
+        this.date = date;
+    }
 
     public Long getId() {
         return id;
@@ -22,12 +35,12 @@ public class Tournoi {
         this.id = id;
     }
 
-    public String getJeu() {
-        return jeu;
+    public Long getIdJeu() {
+        return IdJeu;
     }
 
-    public void setJeu(String jeu) {
-        this.jeu = jeu;
+    public void setIdJeu(Long idJeu) {
+        IdJeu = idJeu;
     }
 
     public String getResponsable() {
@@ -54,12 +67,28 @@ public class Tournoi {
         this.joueursIds = joueursIds;
     }
 
+    public void addJoueurId(Long id){this.joueursIds.add(id);}
+
+    public void supprimerJoueurId(Long id){
+        if (joueursIds.contains(id)){
+            this.joueursIds.remove(id);
+            }
+        }
+
     public List<Long> getEquipesIds() {
         return equipesIds;
     }
 
     public void setEquipesIds(List<Long> equipesIds) {
         this.equipesIds = equipesIds;
+    }
+
+    public void addEquipeId(Long id){this.equipesIds.add(id);}
+
+    public void supprimerEquipeId(Long id){
+        if (equipesIds.contains(id)){
+            this.equipesIds.remove(id);
+        }
     }
 
     public List<String> getRègles() {
@@ -70,6 +99,14 @@ public class Tournoi {
         this.règles = règles;
     }
 
+    public void addRègles(String règle){this.règles.add(règle);}
+
+    public void supprimerRègleNum(int index){
+        if (index >= 0 && index < règles.size()) {
+            this.règles.remove(index);
+        }
+    }
+
     public Date getDate() {
         return date;
     }
@@ -78,11 +115,4 @@ public class Tournoi {
         this.date = date;
     }
 
-    public int getHoraire() {
-        return horaire;
-    }
-
-    public void setHoraire(int horaire) {
-        this.horaire = horaire;
-    }
 }
