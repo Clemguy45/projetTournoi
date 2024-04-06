@@ -2,14 +2,21 @@ package com.example.Classe;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class Tournoi {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long IdJeu;
     private String responsable;
     private String organisation;
+    @ElementCollection
     private List<Long> joueursIds; // Liste des identifiants des joueurs inscrits
+    @ElementCollection
     private List<Long> equipesIds; // Liste des identifiants des équipes inscrites
+    @ElementCollection
     private List<String> règles;
     private Date date;
 
