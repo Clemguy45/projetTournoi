@@ -17,20 +17,20 @@ public class Tournoi {
     @ElementCollection
     private List<Long> equipesIds; // Liste des identifiants des équipes inscrites
     @ElementCollection
-    private List<String> règles;
+    private List<String> regles;
     private Date date;
 
     public Tournoi() {
     }
 
-    public Tournoi(Long id, Long idJeu, String responsable, String organisation, List<Long> joueursIds, List<Long> equipesIds, List<String> règles, Date date) {
+    public Tournoi(Long id, Long idJeu, String responsable, String organisation, List<Long> joueursIds, List<Long> equipesIds, List<String> regles, Date date) {
         this.id = id;
         this.IdJeu = idJeu;
         this.responsable = responsable;
         this.organisation = organisation;
         this.joueursIds = joueursIds;
         this.equipesIds = equipesIds;
-        this.règles = règles;
+        this.regles = regles;
         this.date = date;
     }
 
@@ -98,19 +98,19 @@ public class Tournoi {
         }
     }
 
-    public List<String> getRègles() {
-        return règles;
+    public List<String> getRegles() {
+        return regles;
     }
 
-    public void setRègles(List<String> règles) {
-        this.règles = règles;
+    public void setRegles(List<String> regles) {
+        this.regles = regles;
     }
 
-    public void addRègles(String règle){this.règles.add(règle);}
+    public void addRegles(String regle){this.regles.add(regle);}
 
-    public void supprimerRègleNum(int index){
-        if (index >= 0 && index < règles.size()) {
-            this.règles.remove(index);
+    public void supprimerRegleNum(int index){
+        if (index >= 0 && index < regles.size()) {
+            this.regles.remove(index);
         }
     }
 

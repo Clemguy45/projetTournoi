@@ -37,98 +37,97 @@ public class TournoiControleur {
 
     @GetMapping("/{id}/IdJeu")
     public Long getIdJeu(@PathVariable("id") Long id){
-        Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getJeu(tournoi);
+        return tournoiFacade.getIdJeu(id);
     }
     @GetMapping("/{id}/responsable")
     public String getResponsable(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getResponsable(tournoi);
+        return tournoiFacade.getResponsable(id);
     }@GetMapping("/{id}/organisation")
     public String getOrganisation(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getOrganisation(tournoi);
+        return tournoiFacade.getOrganisation(id);
     }@GetMapping("/{id}/joueursIds")
     public List<Long> getJoueursIds(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getJoueursIds(tournoi);
+        return tournoiFacade.getJoueursIds(id);
     }@GetMapping("/{id}/equipesId")
     public List<Long> getEquipesIds(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getEquipesIds(tournoi);
+        return tournoiFacade.getEquipesIds(id);
     }@GetMapping("/{id}/règles")
     public List<String> getRègles(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getRègles(tournoi);
+        return tournoiFacade.getRegles(id);
     }@GetMapping("/{id}/date")
     public Date getDate(@PathVariable("id") Long id){
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.getDate(tournoi);
+        return tournoiFacade.getDate(id);
     }
 
     @PutMapping("/{id}/modifierJeu")
     public String modifierJeuTournoi(@PathVariable("id") Long id, @RequestParam("idJeu") Long idJeu) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierJeu(tournoi, idJeu);
+        return tournoiFacade.modifierJeu(id, idJeu);
     }
     @PutMapping("/{id}/modifierResponsable")
     public String modifierResponsable(@PathVariable("id") Long id, @RequestParam("responsable") String responsable) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierResponsable(tournoi, responsable);
+        return tournoiFacade.modifierResponsable(id, responsable);
     }
     @PutMapping("/{id}/modifierOrganisation")
     public String modifierOrganisation(@PathVariable("id") Long id, @RequestParam("organisation") String organisation) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierOrganisation(tournoi, organisation);
+        return tournoiFacade.modifierOrganisation(id, organisation);
     }
     @PutMapping("/{id}/modifierJoueursIds")
     public String modifierJoueursIds(@PathVariable("id") Long id, @RequestParam("JoueursIds") List<Long> joueursIds) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierJoueursIds(tournoi, joueursIds);
+        return tournoiFacade.modifierJoueursIds(id, joueursIds);
     }
     @PutMapping("/{id}/modifierEquipesIds")
     public String modifierEquipesIds(@PathVariable("id") Long id, @RequestParam("EquipesIds") List<Long> equipesIds) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierEquipesIds(tournoi, equipesIds);
+        return tournoiFacade.modifierEquipesIds(id, equipesIds);
     }
     @PutMapping("/{id}/modifierRègles")
     public String modifierRègles(@PathVariable("id") Long id, @RequestParam("règles") List<String> règles) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierRègles(tournoi, règles);
+        return tournoiFacade.modifierRegles(id, règles);
     }
     @PutMapping("/{id}/modifierDate")
     public String modifierDate(@PathVariable("id") Long id, @RequestParam("date") Date date) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.modifierDate(tournoi, date);
+        return tournoiFacade.modifierDate(id, date);
     }
     @PatchMapping("/{id}/ajouterJoueurId")
     public String ajouterJoueurId(@PathVariable("id") Long id, @RequestParam("joueurId") Long joueurId) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.ajouterJoueurId(tournoi,joueurId);
+        return tournoiFacade.ajouterJoueurId(id,joueurId);
     }
     @PatchMapping("/{id}/ajouterEquipeId")
     public String ajouterEquipeId(@PathVariable("id") Long id, @RequestParam("equipeId") Long equipeId) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.ajouterEquipeId(tournoi,equipeId);
+        return tournoiFacade.ajouterEquipeId(id,equipeId);
     }
     @PatchMapping("/{id}/ajouterRègle")
     public String ajouterRègle(@PathVariable("id") Long id, @RequestParam("regle") String règle) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.ajouterRègles(tournoi,règle);
+        return tournoiFacade.ajouterRegles(id,règle);
     }
     @DeleteMapping("/{id}/supprimerJoueurId")
     public String supprimerJoueurId(@PathVariable("id") Long id, @RequestParam("joueurId") Long joueurId) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.supprimerJoueurId(tournoi,joueurId);
+        return tournoiFacade.supprimerJoueurId(id,joueurId);
     }
     @DeleteMapping("/{id}/supprimerEquipeId")
     public String supprimerEquipeId(@PathVariable("id") Long id, @RequestParam("equipeId") Long equipeId) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.supprimerEquipeId(tournoi,equipeId);
+        return tournoiFacade.supprimerEquipeId(id,equipeId);
     }
     @DeleteMapping("/{id}/SupprimerRègleNum")
     public String supprimerRègleNum(@PathVariable("id") Long id, @RequestParam("index") int index) {
         Tournoi tournoi =  tournoiFacade.obtenirTournoi(id);
-        return tournoiFacade.supprimerRègleNum(tournoi,index);
+        return tournoiFacade.supprimerRegleNum(id,index);
     }
 }
