@@ -11,6 +11,18 @@ spring:
       ribbon:
         enabled: false
 
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: jeuxtri
+          uri: lb://jeuxtri
+          predicates:
+            - Path=/jeuxtri/**
+          filters:
+            - RewritePath=/jeuxtri/(?<path>.*), /jeuxtri/$\{path}
+            - PreserveHostHeader=true
 
 
 server:

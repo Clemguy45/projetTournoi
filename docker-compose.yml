@@ -26,3 +26,15 @@ services:
       - DEBUG=true
     depends_on:
       - discovery
+
+  jeuxtri:
+    build: ./jeuxTri
+    environment:
+      - DEBUG=true
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+    depends_on:
+      - discovery
+      - config-server
+    networks:
+      - microservice-network
