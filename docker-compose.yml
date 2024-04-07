@@ -23,25 +23,6 @@ services:
     networks:
       - keycloak-network
 
-  keycloak:
-    image: jboss/keycloak:latest
-    container_name: keycloak
-    environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - DB_VENDOR=MYSQL
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=password
-      - DB_ADDR=mysql
-    ports:
-      - "8000:8080"
-    volumes:
-      - ./realm-export.json:/tmp/realm-export.json
-    command: [ "-b", "0.0.0.0", "-Dkeycloak.import=/tmp/realm-export.json" ]
-    networks:
-      - keycloak-network
-
   config-server:
     build: ./config
     environment:
@@ -67,7 +48,7 @@ services:
       - keycloak-network
 
   joueur:
-    build: ./serviceJoueur
+    build: ./tournoi
     environment:
       - DEBUG=true
       - CONSUL_HOST=discovery
@@ -78,12 +59,6 @@ services:
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
-      - keycloak.realm=Joueur
-      - keycloak.domain=keycloak:8000
-      - keycloak.adminclientID=joueur-api
-      - keycloak.adminclienSecret=JUvJ98vBHRajnDQc99vaiYYx05faleuB
-      - keycloak.client=joueur-web
-      - keycloak.url.auth=http://keycloak:8000/
     depends_on:
       - discovery
       - config-server

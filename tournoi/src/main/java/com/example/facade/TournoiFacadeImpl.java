@@ -2,6 +2,8 @@ package com.example.facade;
 
 import com.example.Classe.Tournoi;
 import com.example.Classe.TournoiRepository;
+import com.example.dto.ModifierDTO;
+import com.example.dto.TournoiDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +32,31 @@ public class TournoiFacadeImpl implements TournoiFacade{
     }
 
     @Override
-    public String creerTournoi(Tournoi tournoi) {
-        tournoiRepository.save(tournoi); // Enregistre le tournoi dans la base de données
-        return "Tournoi créé avec succès";
+    public Tournoi creerTournoi(TournoiDTO tournoiDTO) {
+        Tournoi newTournoi= new Tournoi();
+        newTournoi.setIdJeu(tournoiDTO.idJeu());
+        newTournoi.setResponsable(tournoiDTO.responsable());
+        newTournoi.setOrganisation(tournoiDTO.organisation());
+        newTournoi.setJoueursIds(tournoiDTO.joueursIds());
+        newTournoi.setEquipesIds(tournoiDTO.equipesIds());
+        newTournoi.setRegles(tournoiDTO.regles());
+        newTournoi.setDate(tournoiDTO.date());
+        tournoiRepository.save(newTournoi); // Enregistre le tournoi dans la base de données
+        return newTournoi;
+    }
+
+    @Override
+    public Tournoi modifierTournoi(ModifierDTO modifierDTO) {
+        Tournoi newTournoi= new Tournoi();
+        newTournoi.setIdJeu(modifierDTO.idJeu());
+        newTournoi.setResponsable(modifierDTO.responsable());
+        newTournoi.setOrganisation(modifierDTO.organisation());
+        newTournoi.setJoueursIds(modifierDTO.joueursIds());
+        newTournoi.setEquipesIds(modifierDTO.equipesIds());
+        newTournoi.setRegles(modifierDTO.regles());
+        newTournoi.setDate(modifierDTO.date());
+        tournoiRepository.save(newTournoi); // Enregistre le tournoi dans la base de données
+        return newTournoi;
     }
 
     @Override
@@ -248,5 +272,6 @@ public class TournoiFacadeImpl implements TournoiFacade{
         // Logique pour obtenir un tournoi par le responsable
         return new Tournoi(); // Exemple de retour factice
     }
+
 
 }
