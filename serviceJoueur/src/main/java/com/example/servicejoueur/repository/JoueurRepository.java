@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface JoueurRepository extends JpaRepository<Joueur,String> {
     boolean existsJoueurByPseudo(String pseudo);
     boolean existsJoueurByEmail(String email);
+    Joueur findByPseudo(String pseudo);
 }
