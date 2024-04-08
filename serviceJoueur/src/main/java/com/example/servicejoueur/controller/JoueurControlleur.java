@@ -52,14 +52,6 @@ public class JoueurControlleur {
         this.joueurService = joueurService;
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity hello() {
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/hello2")
-    public ResponseEntity hello2(){ return ResponseEntity.ok().build();}
-
     @PostMapping("/signUp")
     public ResponseEntity<?> register(@RequestBody RegisterDTO joueurDTO) throws PseudoDejaPrisException, CompteDejaExistant {
         if (joueurService.existByEmail(joueurDTO.email())){
@@ -96,5 +88,26 @@ public class JoueurControlleur {
                 + "X-PINGOTHER, Origin" + "X-Requested-With , Content-Type" + "Accept" + "Accept, X-Custom-Headers");
 
         response.addHeader(HEADER_STRING, TOKEN_PREFIX + jwt);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        joueurService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody RegisterDTO registerDTO) throws PseudoDejaPrisException, CompteDejaExistant {
+        Joueur joueur = joueurService.update(id, registerDTO);
+        return ResponseEntity.ok(joueur);
+    }
+
+    @GetMapping("/{id}/profil")
+    public ResponseEntity<?> getProfile(@PathVariable Long id) {
+        Joueur joueur = joueurService.findById(id);
+        if (joueur == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(joueur);
     }
 }

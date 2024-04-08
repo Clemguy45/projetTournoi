@@ -7,6 +7,9 @@ import com.example.servicejoueur.exception.PseudoDejaPrisException;
 
 public interface JoueurService {
     Joueur register(RegisterDTO registerDTO) throws PseudoDejaPrisException, CompteDejaExistant;
+    void deleteById(Long id);
+    Joueur update(Long id, RegisterDTO registerDTO) throws PseudoDejaPrisException, CompteDejaExistant;
+    Joueur findById(Long id);
     boolean existByEmail(String email);
     boolean existByPseudo(String username);
 }

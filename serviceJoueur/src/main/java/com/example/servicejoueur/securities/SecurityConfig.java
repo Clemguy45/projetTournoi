@@ -1,5 +1,6 @@
 package com.example.servicejoueur.securities;
 
+import com.example.servicejoueur.enums.JoueurRole;
 import com.example.servicejoueur.securities.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,10 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests( registry -> registry
                 .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-                .requestMatchers(HttpMethod.GET, "/joueur/hello").permitAll()
-                .requestMatchers(HttpMethod.GET, "/joueur/hello2").permitAll()
-                .requestMatchers(HttpMethod.POST, "/joueur/signUp").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/joueur/signIn").permitAll()
+                .requestMatchers(HttpMethod.POST, "/joueur/signUp", "/joueur/signIn").permitAll()
                 .anyRequest().authenticated()
         ).csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

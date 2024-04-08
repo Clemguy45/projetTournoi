@@ -40,10 +40,41 @@ public class JoueurServiceImpl implements JoueurService{
         newJoueur.setBiographie(registerDTO.biographie());
         newJoueur.setPassword(passwordEncoder.encode(registerDTO.password()));
 
-        newJoueur.setRole(JoueurRole.JOUEUR);
+        newJoueur.setRole(registerDTO.joueurRole());
         joueurRepository.save(newJoueur);
 
         return newJoueur;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        joueurRepository.deleteById(String.valueOf(id));
+    }
+
+    @Override
+    public Joueur update(Long id, RegisterDTO registerDTO) throws PseudoDejaPrisException, CompteDejaExistant {
+        Joueur joueur = joueurRepository.findById(String.valueOf(id)).orElseThrow(() -> new IllegalArgumentException("Joueur non trouvé"));
+
+        if (!joueur.getPseudo().equals(registerDTO.pseudo()) && joueurRepository.existsJoueurByPseudo(registerDTO.pseudo())) {
+            throw new PseudoDejaPrisException();
+        }
+        if (!joueur.getEmail().equals(registerDTO.email()) && joueurRepository.existsJoueurByEmail(registerDTO.email())) {
+            throw new CompteDejaExistant();
+        }
+
+        joueur.setEmail(registerDTO.email());
+        joueur.setFirst_name(registerDTO.first_name());
+        joueur.setLast_name(registerDTO.last_name());
+        joueur.setPseudo(registerDTO.pseudo());
+        joueur.setBiographie(registerDTO.biographie());
+        joueur.setPassword(passwordEncoder.encode(registerDTO.password()));
+
+        return joueurRepository.save(joueur);
+    }
+
+    @Override
+    public Joueur findById(Long id) {
+        return joueurRepository.findById(String.valueOf(id)).orElse(null);
     }
 
     @Override
