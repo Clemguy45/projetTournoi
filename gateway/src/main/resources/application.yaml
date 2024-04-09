@@ -11,7 +11,18 @@ spring:
       ribbon:
         enabled: false
 
-
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: tournois-service
+          uri: lb://tournois-service
+          predicates:
+            - Path=/tournoi/**
+          filters:
+            - RewritePath=/tournoi/(?<path>.*), /tournoi/$\{path}
+            - PreserveHostHeader=true
 
 server:
   port: 8082
