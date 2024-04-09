@@ -50,10 +50,9 @@ services:
   tournoi:
     build: ./tournoi
     environment:
-      - DEBUG=true
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tournoi
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-tournoi:3306/tournoi
       - SPRING_DATASOURCE_USERNAME=tournoi
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
