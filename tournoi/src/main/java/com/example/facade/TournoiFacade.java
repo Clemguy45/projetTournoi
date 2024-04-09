@@ -1,6 +1,8 @@
 package com.example.facade;
 
 import com.example.Classe.Tournoi;
+import com.example.dto.ModifierDTO;
+import com.example.dto.TournoiDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,9 @@ public interface TournoiFacade {
 
     Tournoi obtenirTournoi(Long id);
 
-    String creerTournoi(Tournoi tournoi);
+    Tournoi creerTournoi(TournoiDTO tournoiDTO);
+
+    Tournoi modifierTournoi(ModifierDTO modifierDTO);
 
     Long getIdJeu(Long tournoiId);
 

@@ -8,12 +8,12 @@ services:
     networks:
       - keycloak-network
 
-  mysql:
+  mysql-tournoi:
     image: mysql:8.0
     container_name: mysql
     environment:
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
+      MYSQL_DATABASE: tournoi
+      MYSQL_USER: tournoi
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root_password
     ports:
@@ -47,14 +47,14 @@ services:
     networks:
       - keycloak-network
 
-  joueur:
+  tournoi:
     build: ./tournoi
     environment:
       - DEBUG=true
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/keycloak
-      - SPRING_DATASOURCE_USERNAME=keycloak
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tournoi
+      - SPRING_DATASOURCE_USERNAME=tournoi
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL-AUTO=update
@@ -62,7 +62,7 @@ services:
     depends_on:
       - discovery
       - config-server
-      - mysql
+      - mysql-tournoi
     networks:
       - keycloak-network
 
