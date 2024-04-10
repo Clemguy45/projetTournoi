@@ -1,14 +1,13 @@
 package com.example.facade;
 
-import com.example.Classe.Tournoi;
-import com.example.Classe.TournoiRepository;
-import com.example.dto.ModifierDTO;
+import com.example.entities.Tournoi;
 import com.example.dto.TournoiDTO;
+import com.example.exception.TournoiDejaExistantException;
+import com.example.exception.TournoiNonExixtantException;
+import com.example.repository.TournoiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,256 +21,56 @@ public class TournoiFacadeImpl implements TournoiFacade{
     }
 
     @Override
-    public List<Tournoi> listeTournois() {
-        return tournoiRepository.findAll(); // Récupère tous les tournois de la base de données
+    public List<Tournoi> getAllTournois() {
+        return tournoiRepository.findAll();
     }
 
     @Override
-    public Tournoi obtenirTournoi(Long id) {
-        return tournoiRepository.findById(id).orElse(null); // Récupère un tournoi par son identifiant
+    public Tournoi getTournoiByName(String tournoiName) {
+        return tournoiRepository.findByName(tournoiName);
     }
 
     @Override
-    public Tournoi creerTournoi(TournoiDTO tournoiDTO) {
-        Tournoi newTournoi= new Tournoi();
-        newTournoi.setIdJeu(tournoiDTO.idJeu());
-        newTournoi.setResponsable(tournoiDTO.responsable());
-        newTournoi.setOrganisation(tournoiDTO.organisation());
-        newTournoi.setJoueursIds(tournoiDTO.joueursIds());
-        newTournoi.setEquipesIds(tournoiDTO.equipesIds());
-        newTournoi.setRegles(tournoiDTO.regles());
-        newTournoi.setDate(tournoiDTO.date());
-        tournoiRepository.save(newTournoi); // Enregistre le tournoi dans la base de données
-        return newTournoi;
+    public void suprimerTournoi(String tournoiName) {
+        Tournoi tournoi = tournoiRepository.findByName(tournoiName);
+        tournoiRepository.deleteById(tournoi.getId());
     }
 
     @Override
-    public Tournoi modifierTournoi(ModifierDTO modifierDTO) {
-        Tournoi newTournoi= new Tournoi();
-        newTournoi.setIdJeu(modifierDTO.idJeu());
-        newTournoi.setResponsable(modifierDTO.responsable());
-        newTournoi.setOrganisation(modifierDTO.organisation());
-        newTournoi.setJoueursIds(modifierDTO.joueursIds());
-        newTournoi.setEquipesIds(modifierDTO.equipesIds());
-        newTournoi.setRegles(modifierDTO.regles());
-        newTournoi.setDate(modifierDTO.date());
-        tournoiRepository.save(newTournoi); // Enregistre le tournoi dans la base de données
-        return newTournoi;
-    }
-
-    @Override
-    public Long getIdJeu(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getIdJeu();
+    public Tournoi modifierTournoi(String name,TournoiDTO modifiedTournoi) throws TournoiNonExixtantException {
+        Tournoi tournoi = tournoiRepository.findByName(name);
+        if (!tournoiRepository.existsByName(tournoi.getNomTournoi())){
+            throw new TournoiNonExixtantException();
         }
-        return null; // Si le tournoi n'existe pas dans la base de données
+        tournoi.setNomTournoi(modifiedTournoi.nomTournoi());
+        tournoi.setOrganisation(modifiedTournoi.organisation());
+        tournoi.setResponsable(modifiedTournoi.responsable());
+        tournoi.setDate(modifiedTournoi.date());
+        tournoi.setIdJeu(modifiedTournoi.idJeu());
+        tournoi.setJoueursIds(modifiedTournoi.joueursIds());
+        tournoi.setEquipesIds(modifiedTournoi.equipesIds());
+        tournoi.setRegles(modifiedTournoi.regles());
+
+        tournoiRepository.save(tournoi);
+        return tournoi;
     }
 
     @Override
-    public String modifierJeu(Long tournoiId, Long idJeu) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setIdJeu(idJeu); // Met à jour l'identifiant du jeu associé au tournoi
-            tournoiRepository.save(tournoi);
-            return "Jeu du tournoi modifié avec succès";
+    public Tournoi createTournoi(TournoiDTO newTournoi) throws TournoiDejaExistantException {
+        Tournoi tournoi = new Tournoi();
+        if (tournoiRepository.existsByName(newTournoi.nomTournoi())){
+            throw new TournoiDejaExistantException();
         }
-        return "Tournoi non trouvé";
-    }
+        tournoi.setNomTournoi(newTournoi.nomTournoi());
+        tournoi.setOrganisation(newTournoi.organisation());
+        tournoi.setResponsable(newTournoi.responsable());
+        tournoi.setDate(newTournoi.date());
+        tournoi.setIdJeu(newTournoi.idJeu());
+        tournoi.setJoueursIds(newTournoi.joueursIds());
+        tournoi.setEquipesIds(newTournoi.equipesIds());
+        tournoi.setRegles(newTournoi.regles());
 
-    @Override
-    public String getResponsable(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getResponsable();
-        }
-        return null;
+        tournoiRepository.save(tournoi);
+        return tournoi;
     }
-    @Override
-    public String modifierResponsable(Long tournoiId, String responsable) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setResponsable(responsable);
-            tournoiRepository.save(tournoi);
-            return "Responsable du tournoi modifié avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-    @Override
-    public String getOrganisation(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getOrganisation();
-        }
-        return null;
-    }
-    @Override
-    public String modifierOrganisation(Long tournoiId, String organisation) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setOrganisation(organisation);
-            tournoiRepository.save(tournoi);
-            return "Organisation du tournoi modifié avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public List<Long> getJoueursIds(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getJoueursIds();
-        }
-        return Collections.emptyList(); // Retourne une liste vide si le tournoi n'est pas trouvé
-    }
-
-    @Override
-    public String modifierJoueursIds(Long tournoiId, List<Long> joueurIds) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setJoueursIds(joueurIds);
-            tournoiRepository.save(tournoi);
-            return "Joueurs du tournoi modifiés avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public List<Long> getEquipesIds(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getEquipesIds();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public String modifierEquipesIds(Long tournoiId, List<Long> equipeIds) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setEquipesIds(equipeIds);
-            tournoiRepository.save(tournoi);
-            return "Équipes du tournoi modifiées avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public List<String> getRegles(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getRegles();
-        }
-        return Collections.emptyList();
-    }
-
-    @Override
-    public String modifierRegles(Long tournoiId, List<String> regles) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setRegles(regles);
-            tournoiRepository.save(tournoi);
-            return "Regles du tournoi modifiées avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-    @Override
-    public Date getDate(Long tournoiId) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            return tournoi.getDate();
-        }
-        return null;
-    }
-    @Override
-    public String modifierDate(Long tournoiId, Date date) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.setDate(date);
-            tournoiRepository.save(tournoi);
-            return "Date du tournoi modifiées avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String ajouterJoueurId(Long tournoiId, Long id) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.addJoueurId(id);
-            tournoiRepository.save(tournoi);
-            return "Joueur " + id + " ajouté avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String ajouterEquipeId(Long tournoiId, Long id) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.addEquipeId(id);
-            tournoiRepository.save(tournoi);
-            return "Equipe " + id + " ajoutée avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String ajouterRegles(Long tournoiId, String regle) {
-        Tournoi tournoi = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoi != null) {
-            tournoi.addRegles(regle);
-            tournoiRepository.save(tournoi);
-            return "Regle (" + regle + ") ajoutée avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String supprimerJoueurId(Long tournoiId, Long id) {
-        Tournoi tournoiFromDb = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoiFromDb != null) {
-            tournoiFromDb.supprimerJoueurId(id);
-            tournoiRepository.save(tournoiFromDb);
-            return "Joueur " + id + " supprimé avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String supprimerEquipeId(Long tournoiId, Long id) {
-        Tournoi tournoiFromDb = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoiFromDb != null) {
-            tournoiFromDb.supprimerEquipeId(id);
-            tournoiRepository.save(tournoiFromDb);
-            return "Equipe " + id + " supprimée avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-    @Override
-    public String supprimerRegleNum(Long tournoiId, int index) {
-        Tournoi tournoiFromDb = tournoiRepository.findById(tournoiId).orElse(null);
-        if (tournoiFromDb != null) {
-            tournoiFromDb.supprimerRegleNum(index);
-            tournoiRepository.save(tournoiFromDb);
-            return "Règle n°" + index + " supprimée avec succès";
-        }
-        return "Tournoi non trouvé";
-    }
-
-
-
-
-    public Tournoi obtenirTournoiParJeu(String jeu) {
-        // Logique pour obtenir un tournoi par le jeu
-        return new Tournoi(); // Exemple de retour factice
-    }
-
-    public Tournoi obtenirTournoiParResponsable(String responsable) {
-        // Logique pour obtenir un tournoi par le responsable
-        return new Tournoi(); // Exemple de retour factice
-    }
-
-
 }

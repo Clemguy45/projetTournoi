@@ -20,14 +20,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
@@ -68,7 +60,12 @@
 			<artifactId>javax.persistence-api</artifactId>
 			<version>2.2</version> <!-- Version spécifique de JPA -->
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
