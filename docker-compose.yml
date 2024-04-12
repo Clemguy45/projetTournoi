@@ -65,6 +65,7 @@ services:
       - mysql_tournois
       - discovery
       - config-server
+    restart: always
     networks:
       - keycloak-network
 
