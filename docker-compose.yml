@@ -8,21 +8,6 @@ services:
     networks:
       - keycloak-network
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    environment:
-      MYSQL_DATABASE: tournoi
-      MYSQL_USER: tournoi
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: root_password
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - keycloak-network
-
   config-server:
     build: ./config
     environment:
@@ -47,21 +32,39 @@ services:
     networks:
       - keycloak-network
 
-  tournoi:
-    build: ./tournoi
+
+  mysql_tournois:
+    image: mysql:8.0
+    container_name: mysql_tournois
+    environment:
+      MYSQL_DATABASE: tournois
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - keycloak-network
+
+
+  service_tournois:
+    build: ./serviceTournois
     environment:
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/tournoi
-      - SPRING_DATASOURCE_USERNAME=tournoi
-      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_tournois:3306/tournois
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL-AUTO=update
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+    ports:
+      - "8084:8080"
     depends_on:
+      - mysql_tournois
       - discovery
       - config-server
-      - mysql
     networks:
       - keycloak-network
 
