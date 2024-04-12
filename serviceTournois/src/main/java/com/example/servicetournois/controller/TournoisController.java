@@ -34,10 +34,10 @@ public class TournoisController {
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Tournois> updateTournois(@RequestBody TournoisDTO tournoisDTO) throws TournoisNonExistantException {
+    @PutMapping("/update/{nomTournois}")
+    public ResponseEntity<Tournois> updateTournois(@PathVariable String nomTournois, @RequestBody TournoisDTO tournoisDTO) {
         try {
-            Tournois tournois = tournoisFacade.updatedTournois(tournoisDTO);
+            Tournois tournois = tournoisFacade.updateTournois(nomTournois, tournoisDTO);
             return ResponseEntity.ok(tournois);
         } catch (TournoisNonExistantException e) {
             return ResponseEntity.notFound().build();
@@ -53,7 +53,7 @@ public class TournoisController {
     @GetMapping("/{nomTournois}")
     public ResponseEntity<Tournois> getTournoisById(@PathVariable String nomTournois) {
         try {
-            Tournois tournois = tournoisFacade.getTournoisById(nomTournois);
+            Tournois tournois = tournoisFacade.getTournoisByNomTournois(nomTournois);
             return ResponseEntity.ok(tournois);
         } catch (TournoisNonExistantException e) {
             return ResponseEntity.notFound().build();

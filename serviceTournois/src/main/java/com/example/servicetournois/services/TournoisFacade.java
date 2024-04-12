@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface TournoisFacade {
     Tournois createdTournois (TournoisDTO tournoisDTO) throws TournoisDejaExistantException;
-    Tournois updatedTournois (TournoisDTO tournoisDTO) throws TournoisNonExistantException;
+    Tournois updateTournois(String nomTournois, TournoisDTO tournoisDTO) throws TournoisNonExistantException;
     void deleteTournois (String nomTournois);
-    Tournois getTournoisById (String nomTournois) throws TournoisNonExistantException;
+    Tournois getTournoisByNomTournois (String nomTournois) throws TournoisNonExistantException;
     List<Tournois> getAllTournois ();
 }

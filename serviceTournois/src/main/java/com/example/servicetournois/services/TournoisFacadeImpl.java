@@ -41,11 +41,12 @@ public class TournoisFacadeImpl implements TournoisFacade{
     }
 
     @Override
-    public Tournois updatedTournois(TournoisDTO tournoisDTO) throws TournoisNonExistantException {
-        Tournois tournois = new Tournois();
-        if (tournoisRepository.existsByNomTournoi(tournoisDTO.nomTournoi())) {
+    public Tournois updateTournois(String nomTournois, TournoisDTO tournoisDTO) throws TournoisNonExistantException {
+        Tournois tournois = tournoisRepository.findByNomTournoi(nomTournois);
+        if (!tournoisRepository.existsByNomTournoi(nomTournois)) {
             throw new TournoisNonExistantException();
         }
+        // Mettre à jour les champs du tournoi avec les valeurs du DTO
         tournois.setNomTournoi(tournoisDTO.nomTournoi());
         tournois.setOrganisation(tournoisDTO.organisation());
         tournois.setResponsable(tournoisDTO.responsable());
@@ -60,6 +61,7 @@ public class TournoisFacadeImpl implements TournoisFacade{
         return tournois;
     }
 
+
     @Override
     public void deleteTournois(String nomTournois) {
         Tournois tournois = tournoisRepository.findByNomTournoi(nomTournois);
@@ -67,7 +69,7 @@ public class TournoisFacadeImpl implements TournoisFacade{
     }
 
     @Override
-    public Tournois getTournoisById(String nomTournois) throws TournoisNonExistantException {
+    public Tournois getTournoisByNomTournois(String nomTournois) throws TournoisNonExistantException {
         Tournois tournois = tournoisRepository.findByNomTournoi(nomTournois);
         if (tournois != null) {
             return tournois;

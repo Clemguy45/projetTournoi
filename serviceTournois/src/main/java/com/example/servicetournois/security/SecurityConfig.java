@@ -15,9 +15,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.authorizeHttpRequests( registry -> registry
-                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/tournoi/creer", "/tournoi/modifier/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/tournoi/supprimer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/actuator/health", "/tournois/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/tournois/create").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/tournois/delete/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/tournois/update/**").permitAll()
                         .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
