@@ -66,6 +66,7 @@ services:
       - config-server
     networks:
       - keycloak-network
+    restart: always
 
 
 networks:
