@@ -1,11 +1,13 @@
 version: "3.9"
 
 services:
+
   discovery:
-    image: consul:1.15.4
+    image: consul:1.15
     ports:
       - 8500:8500
-
+    networks:
+      - keycloak-network
 
   config-server:
     build: ./config
@@ -15,6 +17,8 @@ services:
       - DEBUG=true
     depends_on:
       - discovery
+    networks:
+      - keycloak-network
 
   gateway:
     build: ./gateway
@@ -26,14 +30,48 @@ services:
       - DEBUG=true
     depends_on:
       - discovery
+    networks:
+      - keycloak-network
 
-  servicejeux2 :
-    build: ./serviceJeu2
+  mysql_jeux:
+    image: mysql:8.0
+    container_name: mysql_jeux
+    environment:
+      MYSQL_DATABASE: jeux
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
     ports:
-      - 8084:8084
+      - "3308:3306"
+    volumes:
+      - mysql-data_jeux:/var/lib/mysql
+    networks:
+      - keycloak-network
+
+  service_jeux:
+    build: ./serviceJeux
+    ports:
+      - 8085:8085
     environment:
       - CONSUL_HOST=discovery
       - CONSUL_PORT=8500
-      - DEBUG=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_jeux:3306/jeux
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
     depends_on:
       - discovery
+      - mysql_jeux
+      - config-server
+    networks:
+      - keycloak-network
+
+
+networks:
+  keycloak-network:
+    driver: bridge
+
+volumes:
+  mysql-data_jeux:
+    driver: local
