@@ -30,6 +30,13 @@ spring:
           filters:
             - RewritePath=/jeux/(?<path>.*), /jeux/$\{path}
             - PreserveHostHeader=true
+        - id: serviceTournois
+          uri: lb://serviceTournois
+          predicates:
+            - Path=/tournois/**
+          filters:
+            - RewritePath=/tournois/(?<path>.*), /tournois/$\{path}
+            - PreserveHostHeader=true
 
 server:
   port: 8082
