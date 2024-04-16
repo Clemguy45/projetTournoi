@@ -66,10 +66,48 @@ services:
     networks:
       - keycloak-network
 
+  mysql_jeux:
+    image: mysql:8.0
+    container_name: mysql_jeux
+    environment:
+      MYSQL_DATABASE: jeux
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data_jeux:/var/lib/mysql
+    networks:
+      - keycloak-network
+
+  service_jeux:
+    build: ./serviceJeux
+    ports:
+      - 8085:8085
+    environment:
+      - CONSUL_HOST=discovery
+      - CONSUL_PORT=8500
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_jeux:3306/jeux
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_DRIVER-CLASS-NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_HIBERNATE_DDL-AUTO=update
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+    depends_on:
+      - discovery
+      - mysql_jeux
+      - config-server
+    networks:
+      - keycloak-network
+    restart: always
+
+
 networks:
   keycloak-network:
     driver: bridge
 
 volumes:
   mysql-data:
+    driver: local
+  mysql-data_jeux:
     driver: local
