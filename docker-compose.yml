@@ -43,7 +43,7 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql-data_tournois:/var/lib/mysql
     networks:
       - keycloak-network
 
@@ -74,5 +74,5 @@ networks:
     driver: bridge
 
 volumes:
-  mysql-data:
+  mysql-data_tournois:
     driver: local
