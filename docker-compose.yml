@@ -137,6 +137,16 @@ services:
     networks:
       - keycloak-network
 
+  chat-service:
+    build: ./ChatService
+    ports:
+      - "8080:80"
+    depends_on:
+      - discovery
+    networks:
+      - keycloak-network
+    restart: always
+
 networks:
   keycloak-network:
     driver: bridge
