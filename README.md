@@ -1,5 +1,3 @@
-Bien sûr, voici une version corrigée de votre README.md :
-
 # Projet Tournoi
 
 ## Groupe
