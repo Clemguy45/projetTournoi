@@ -67,15 +67,15 @@ Content-Type: application/json
 ### Obtention du profil de l'utilisateur connecté
 
 GET http://localhost:8082/gateway/joueur/1/profil
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImlhdCI6MTcxMzIxOTY2NCwiZXhwIjoxNzEzMjIxNDY0fQ.0UPS3_H0tulzMn6xB9S1CPuwVFlZGOu4MSEoM7m--4o
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl9zbWl0aCIsImlhdCI6MTcxMzcyMTU1NSwiZXhwIjoxNzEzNzIzMzU1fQ.s7TuAh_l8jAhIOjSaRKpT4wVF6jAXgYHSrFZENL-MMU
 
 <> 2024-04-16T002202.200.json
 
 ### Mise à jour du profil de l'utilisateur connecté
 
-PUT http://localhost:8082/gateway/joueur/{id}
+PUT http://localhost:8082/gateway/joueur/1
 Content-Type: application/json
-Authorization: Bearer <votre_token_JWT>
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl9zbWl0aCIsImlhdCI6MTcxMzcyMTU1NSwiZXhwIjoxNzEzNzIzMzU1fQ.s7TuAh_l8jAhIOjSaRKpT4wVF6jAXgYHSrFZENL-MMU
 
 {
   "first_name": "John",
@@ -90,7 +90,7 @@ Authorization: Bearer <votre_token_JWT>
 ### Suppression du profil de l'utilisateur connecté
 
 DELETE http://localhost:8082/gateway/joueur/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImlhdCI6MTcxMzIxOTY2NCwiZXhwIjoxNzEzMjIxNDY0fQ.0UPS3_H0tulzMn6xB9S1CPuwVFlZGOu4MSEoM7m--4o
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbl9zbWl0aCIsImlhdCI6MTcxMzcyMTU1NSwiZXhwIjoxNzEzNzIzMzU1fQ.s7TuAh_l8jAhIOjSaRKpT4wVF6jAXgYHSrFZENL-MMU
 
 ### Créer un tournoi
 POST http://localhost:8082/tournois/create
@@ -282,4 +282,57 @@ GET http://localhost:8082/jeux/all
 <> 2024-04-17T001031.200.json
 <> 2024-04-14T163121.200.json
 <> 2024-04-14T155839.200.json
+
+###
+POST http://localhost:8082/api/message
+Content-Type: application/json
+
+{
+  "id": 0,
+  "content": "J'espère que le service marche",
+  "sender": "Yohan",
+  "timestamp": "2024-04-21T14:15:18.919Z"
+}
+
+###
+POST http://localhost:8082/api/message
+Content-Type: application/json
+
+{
+  "id": 1,
+  "content": "J'ai testé tout va bien !",
+  "sender": "Frederic",
+  "timestamp": "2024-04-21T14:15:18.919Z"
+}
+
+###
+POST http://localhost:8082/api/message
+Content-Type: application/json
+
+{
+  "id": 2,
+  "content": "le mot de passe a bien été encrypté",
+  "sender": "Nicolas",
+  "timestamp": "2024-04-21T14:15:18.919Z"
+}
+
+###
+GET http://localhost:8082/api/message
+
+###
+GET http://localhost:8082/api/message/1
+
+###
+PUT http://localhost:8082/api/message
+Content-Type: application/json
+
+{
+  "id": 2,
+  "content": "le mot de passe a bien été encrypté ! C'est bien",
+  "sender": "Nicolas",
+  "timestamp": "2024-04-21T14:15:18.919Z"
+}
+
+###
+DELETE http://localhost:8082/api/message/0
 
