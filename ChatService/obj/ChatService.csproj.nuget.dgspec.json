@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Users\\Benjamin\\Documents\\MIAGE\\M2 MIAGE\\Semestre 2\\Projet\\ChatService\\ChatService\\ChatService.csproj": {}
+    "C:\\Users\\Clement\\Documents\\ChatService\\ChatService\\ChatService.csproj": {}
   },
   "projects": {
-    "E:\\Users\\Benjamin\\Documents\\MIAGE\\M2 MIAGE\\Semestre 2\\Projet\\ChatService\\ChatService\\ChatService.csproj": {
+    "C:\\Users\\Clement\\Documents\\ChatService\\ChatService\\ChatService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Users\\Benjamin\\Documents\\MIAGE\\M2 MIAGE\\Semestre 2\\Projet\\ChatService\\ChatService\\ChatService.csproj",
+        "projectUniqueName": "C:\\Users\\Clement\\Documents\\ChatService\\ChatService\\ChatService.csproj",
         "projectName": "ChatService",
-        "projectPath": "E:\\Users\\Benjamin\\Documents\\MIAGE\\M2 MIAGE\\Semestre 2\\Projet\\ChatService\\ChatService\\ChatService.csproj",
-        "packagesPath": "C:\\Users\\Benjamin\\.nuget\\packages\\",
-        "outputPath": "E:\\Users\\Benjamin\\Documents\\MIAGE\\M2 MIAGE\\Semestre 2\\Projet\\ChatService\\ChatService\\obj\\",
+        "projectPath": "C:\\Users\\Clement\\Documents\\ChatService\\ChatService\\ChatService.csproj",
+        "packagesPath": "C:\\Users\\Clement\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Clement\\Documents\\ChatService\\ChatService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Benjamin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Clement\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,20 +32,35 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.AspNetCore.SignalR.Client": {
+            "BCI.Extensions.ServiceDiscovery.Consul": {
               "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[0.2022.234.1102, )"
+            },
+            "Consul": {
+              "target": "Package",
+              "version": "[1.7.14.3, )"
+            },
+            "Discovery.Consul": {
+              "target": "Package",
+              "version": "[1.0.0-preview.2, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
             }
           },
           "imports": [
@@ -69,7 +82,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\Clement\\.dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

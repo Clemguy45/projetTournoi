@@ -43,7 +43,7 @@ services:
       - CONSUL_PORT=8500
       - DEBUG=true
     depends_on:
-    - discovery
+      - discovery
     networks:
       - keycloak-network
 
@@ -137,15 +137,37 @@ services:
     networks:
       - keycloak-network
 
-  chat-service:
+  chatservice:
+    image: chatservice
     build: ./ChatService
     ports:
-      - "8080:80"
+      - "8080:8080"
+    environment:
+      - DB_HOST=mysql_message
+      - DB_PORT=3306
+      - DB_NAME=message
+      - DB_USER=root
+      - DB_PASSWORD=root
     depends_on:
+      - mysql_message
       - discovery
+      - config-server
     networks:
       - keycloak-network
     restart: always
+
+
+  mysql_message:
+    image: mysql:8.0
+    container_name: mysql_message
+    environment:
+      MYSQL_DATABASE: message
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-data_message:/var/lib/mysql
 
 networks:
   keycloak-network:
@@ -157,4 +179,6 @@ volumes:
   mysql-data:
     driver: local
   mysql-data_jeux:
+    driver: local
+  mysql-data_message:
     driver: local

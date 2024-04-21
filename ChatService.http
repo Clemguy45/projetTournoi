@@ -1,0 +1,285 @@
+### Inscription de trois utilisateurs avec des rôles différents
+
+POST http://localhost:8082/joueur/signUp
+Content-Type: application/json
+
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "pseudo": "john_doe",
+  "biographie": "Je suis un joueur passionné.",
+  "joueurRole": "JOUEUR"
+}
+
+<> 2024-04-16T234659.201.json
+<> 2024-04-16T122052.201.json
+<> 2024-04-16T002035.201.json
+
+###
+POST http://localhost:8082/joueur/signUp
+Content-Type: application/json
+
+{
+  "first_name": "Admin",
+  "last_name": "Smith",
+  "email": "admin@example.com",
+  "password": "admin123",
+  "pseudo": "admin_smith",
+  "biographie": "Je suis un administrateur.",
+  "joueurRole": "ADMINISTRATEUR"
+}
+
+<> 2024-04-17T000848.201.json
+<> 2024-04-16T002047.201.json
+
+###
+POST http://localhost:8082/joueur/signUp
+Content-Type: application/json
+
+{
+  "first_name": "Organizer",
+  "last_name": "Brown",
+  "email": "organizer@example.com",
+  "password": "organizer123",
+  "pseudo": "organizer_brown",
+  "biographie": "Je suis un organisateur.",
+  "joueurRole": "ORGANISATEUR"
+}
+
+<> 2024-04-16T002055.201.json
+
+### Connexion d'un utilisateur et obtention du token JWT
+
+POST http://localhost:8082/joueur/signIn
+Content-Type: application/json
+
+{
+  "username": "admin_smith",
+  "password": "admin123"
+}
+
+<> 2024-04-16T122030.200.txt
+<> 2024-04-16T122009.200.txt
+<> 2024-04-16T002104.200.txt
+
+### Obtention du profil de l'utilisateur connecté
+
+GET http://localhost:8082/gateway/joueur/1/profil
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImlhdCI6MTcxMzIxOTY2NCwiZXhwIjoxNzEzMjIxNDY0fQ.0UPS3_H0tulzMn6xB9S1CPuwVFlZGOu4MSEoM7m--4o
+
+<> 2024-04-16T002202.200.json
+
+### Mise à jour du profil de l'utilisateur connecté
+
+PUT http://localhost:8082/gateway/joueur/{id}
+Content-Type: application/json
+Authorization: Bearer <votre_token_JWT>
+
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com",
+  "password": "newpassword",
+  "pseudo": "john_doe_updated",
+  "biographie": "Je suis toujours un joueur passionné.",
+  "joueurRole": "JOUEUR"
+}
+
+### Suppression du profil de l'utilisateur connecté
+
+DELETE http://localhost:8082/gateway/joueur/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImlhdCI6MTcxMzIxOTY2NCwiZXhwIjoxNzEzMjIxNDY0fQ.0UPS3_H0tulzMn6xB9S1CPuwVFlZGOu4MSEoM7m--4o
+
+### Créer un tournoi
+POST http://localhost:8082/tournois/create
+Content-Type: application/json
+
+{
+  "nomTournoi": "Tournoi de printemps",
+  "responsable": "John Doe",
+  "organisation": "Association de jeux de société",
+  "date": "2024-05-15",
+  "joueursIds": [1, 2, 3],
+  "equipesIds": [4, 5, 6],
+  "regles": ["Règle 1", "Règle 2"],
+  "idJeu": 123
+}
+
+<> 2024-04-16T231133.201.json
+
+###
+POST http://localhost:8082/tournois/create
+Content-Type: application/json
+
+{
+  "nomTournoi": "Tournoi d'été",
+  "responsable": "Alice Smith",
+  "organisation": "Club de jeux de cartes",
+  "date": "2024-07-20",
+  "joueursIds": [2, 4, 6],
+  "equipesIds": [3, 7, 8],
+  "regles": ["Règle 3", "Règle 4"],
+  "idJeu": 456
+}
+
+<> 2024-04-17T003023.201.json
+
+###
+POST http://localhost:8082/tournois/create
+Content-Type: application/json
+
+{
+  "nomTournoi": "Tournoi d'automne",
+  "responsable": "Bob Johnson",
+  "organisation": "Fédération de jeux de plateau",
+  "date": "2024-10-10",
+  "joueursIds": [1, 3, 5],
+  "equipesIds": [2, 4, 9],
+  "regles": ["Règle 5", "Règle 6"],
+  "idJeu": 789
+}
+
+<> 2024-04-17T003032.201.json
+
+### Mettre à jour un tournoi
+
+PUT http://localhost:8082/tournois/update/Tournoi%20de%20printemps
+Content-Type: application/json
+
+{
+  "nomTournoi": "Tournoi de printemps",
+  "responsable": "Jane Smith",
+  "organisation": "Club de jeux de cartes",
+  "date": "2024-05-20",
+  "joueursIds": [1, 2, 3, 4],
+  "equipesIds": [4, 5, 6, 7],
+  "regles": ["Règle 1", "Règle 2", "Règle 3"],
+  "idJeu": 123
+}
+
+<> 2024-04-17T003049.200.json
+<> 2024-04-15T234110.404.json
+<> 2024-04-15T234020.404.json
+
+### Supprimer un tournoi
+
+DELETE http://localhost:8082/tournois/delete/Tournoi%20de%20printemps
+
+### Obtenir un tournoi par nom
+
+GET http://localhost:8082/tournois/Tournoi%20de%20printemps
+
+<> 2024-04-17T003101.200.json
+
+### Obtenir tous les tournois
+
+GET http://localhost:8082/tournois/all
+
+<> 2024-04-17T003109.200.json
+
+###
+PUT http://localhost:8082/tournois/update/Tournoi%20d%27automne
+Content-Type: application/json
+
+{
+  "nomTournoi": "Tournoi d'automne",
+  "responsable": "Bob Johnson",
+  "organisation": "Fédération de jeux de plateau",
+  "date": "2024-10-15",
+  "joueursIds": [1, 3, 5, 7],
+  "equipesIds": [2, 4, 9, 11],
+  "regles": ["Règle 5", "Règle 6", "Règle 7"],
+  "idJeu": 789
+}
+
+<> 2024-04-17T003120.200.json
+
+### Créer un nouveau jeu ###
+POST http://localhost:8082/jeux/create
+Content-Type: application/json
+
+{
+  "titre": "Guerre des étoiles",
+  "type": "Stratégie",
+  "pegi": 12,
+  "rangs": ["Débutant", "Intermédiaire", "Avancé"],
+  "nombreMaxJoueurs": 8,
+  "modesDeJeu": ["Solo", "Multijoueur"],
+  "typeTournoi": "Élimination directe"
+}
+
+<> 2024-04-17T000921.201.json
+<> 2024-04-14T162953.201.json
+
+### Créer un autre nouveau jeu ###
+POST http://localhost:8082/jeux/create
+Content-Type: application/json
+
+{
+  "titre": "Course folle",
+  "type": "Course",
+  "pegi": 7,
+  "rangs": ["Débutant", "Intermédiaire"],
+  "nombreMaxJoueurs": 4,
+  "modesDeJeu": ["Solo", "Multijoueur"],
+  "typeTournoi": "Course à points"
+}
+
+<> 2024-04-17T001014.201.json
+<> 2024-04-14T162959.201.json
+<> 2024-04-14T155719.201.json
+
+### Créer un dernier nouveau jeu ###
+POST http://localhost:8082/jeux/create
+Content-Type: application/json
+
+{
+  "titre": "Exploration mystique",
+  "type": "Aventure",
+  "pegi": 10,
+  "rangs": ["Débutant", "Intermédiaire", "Avancé"],
+  "nombreMaxJoueurs": 2,
+  "modesDeJeu": ["Solo"],
+  "typeTournoi": "Non compétitif"
+}
+
+<> 2024-04-14T163006.201.json
+<> 2024-04-14T155728.201.json
+
+### Modifier le jeu "Course folle" ###
+PUT http://localhost:8082/jeux/Course%20folle/update
+Content-Type: application/json
+
+{
+  "titre": "Course folle",
+  "type": "Course",
+  "pegi": 8,
+  "rangs": ["Débutant", "Intermédiaire", "Avancé"],
+  "nombreMaxJoueurs": 6,
+  "modesDeJeu": ["Solo", "Multijoueur"],
+  "typeTournoi": "Course à points"
+}
+
+<> 2024-04-17T001022.200.json
+<> 2024-04-14T163043.200.json
+<> 2024-04-14T155738.200.json
+
+### Supprimer le jeu "Course folle" ###
+DELETE http://localhost:8082/jeux/deleted/Course%20folle
+
+
+### Récupérer le jeu "Exploration mystique" ###
+GET http://localhost:8082/jeux/Exploration%20mystique
+
+<> 2024-04-14T163101.200.json
+<> 2024-04-14T155832.200.json
+
+### Récupérer tous les jeux ###
+GET http://localhost:8082/jeux/all
+
+<> 2024-04-17T001031.200.json
+<> 2024-04-14T163121.200.json
+<> 2024-04-14T155839.200.json
+

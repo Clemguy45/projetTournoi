@@ -37,6 +37,13 @@ spring:
           filters:
             - RewritePath=/tournois/(?<path>.*), /tournois/$\{path}
             - PreserveHostHeader=true
+        - id: chatservice
+          uri: http://chatservice:8080
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - RewritePath=/api/message/(?<path>.*), /api/message/$\{path}
+            - PreserveHostHeader=true
 
 server:
   port: 8082
